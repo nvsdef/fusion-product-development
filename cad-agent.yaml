@@ -1,0 +1,99 @@
+# ==============================================================================
+# cad-agent.yaml — config for the Fusion CAD workspace (one harness, one agent).
+# Mirrors cae-agent.yaml from the Hermes CAE community example.
+#
+# Provider credentials and model routing are NOT duplicated here — pick those
+# during NemoClaw/OpenShell onboarding, or with `/model` in a Hermes session.
+# ==============================================================================
+
+version: 1
+default_harness: hermes
+
+# ── Common ────────────────────────────────────────────────────────────────
+common:
+  # ── Plug-ins (host-side MCP servers) ──────────────────────────────────────
+  # Active plug-ins, in load order; each maps to plugins/<name>/plugin.yaml.
+  plugins:
+    - fusion-mcp     # stdio bridge to the Fusion360MCP add-in on 127.0.0.1:9876
+
+  # ── Agent ─────────────────────────────────────────────────────────────────
+  # ONE agent owns the whole build → CMF → render → drawing loop. No sub-agents
+  # and no delegation.
+  #
+  # This is deliberate and it is the verified shape. The pipeline below is a
+  # sequence of GATES the single agent passes through, not a set of agents to
+  # hand off between: the run is one long dependent chain (~50 tool calls) in
+  # which every stage needs the measurements the previous stage produced, and
+  # a handoff is where that state gets dropped. An earlier three-agent split
+  # (cad-modeler → render-artist → drawing-engineer) is retired.
+  agents:
+    main:
+      description: >
+        Autonomous Fusion 360 product engineer — parametric build, CMF,
+        calibrated photoreal render, and the A3 general arrangement drawing,
+        in one session against a live Fusion GUI.
+      skills:   agents/cad-engineer/skills
+      soul:     agents/cad-engineer/SOUL.md
+      tools_md: agents/cad-engineer/TOOLS.md
+
+# ── Gates ─────────────────────────────────────────────────────────────────
+# One agent, four gates. Each is a numeric check, not a judgement call; the
+# expected values live in the skills and in docs/SLAB_PRD_RevC.pdf §8.
+gates:
+  - id: geometry-signoff
+    after: build
+    check: 289 bodies, 12 components, timeline healthState clean, all stage volumes met
+  - id: cmf-signoff
+    after: appearances
+    check: 11 appearances, 0 resolved mismatches, 0 bodies without appearance, 0 stray face overrides
+  - id: render-signoff
+    after: render
+    check: LED pad G:R 0.55 +/- 0.03, exactly 10 pad blobs, per-channel spread <= 7
+  - id: drawing-release
+    after: drawing
+    check: crop-aspect error <= 0.11% per view, sheet rasterised and inspected
+
+# ── Harness ───────────────────────────────────────────────────────────────
+harnesses:
+  hermes:
+    # Fusion is a HOST GUI application. There is no in-sandbox solver and no
+    # containerised path: the agent must run on the same machine as Fusion.
+    # A remote terminal backend (Daytona, Modal, SSH, Vercel) cannot reach it.
+    runtime:
+      location: host
+      terminal_backend: local
+
+    # Long-horizon settings. The defaults in most harness adapters are far too
+    # small for this workload — see README.md "Harness settings that matter".
+    limits:
+      max_tokens:     8192    # one feature class is 150+ lines of Python in a
+                              # single tool argument; 512 cannot emit one
+      max_turns:      150     # ~50 dependent tool calls over ~45 min
+      tool_timeout_s: 300     # create_drawing measured 47.2 s and exceeds the
+                              # default request timeout while SUCCEEDING
+      reasoning_effort: medium  # the closed-form volume checksums need it
+
+    # Only the tools this workflow uses. The add-in publishes ~95; registering
+    # all of them on top of the harness's own built-ins degrades tool selection.
+    tools:
+      include:
+        - ping
+        - get_design_type
+        - execute_code
+        - render_view
+        - start_render
+        - get_render_status
+        - set_scene_environment
+        - create_drawing
+
+    # ── Inference (optional override) ────────────────────────────────────────
+    # By default the route from onboarding is used. Any OpenAI-compatible
+    # endpoint works — NIM, vLLM, Nous Portal, OpenRouter.
+    #
+    # inference:
+    #   provider_name:                  # e.g. nvidia-nim
+    #   provider_type:                  # openai | anthropic | nvidia
+    #   model:                          # e.g. nvidia/nemotron-3-ultra
+    #   base_url:                       # provider endpoint
+    #   timeout_s:     300
+    #   api_key:       ""               # leave empty — export INFERENCE_API_KEY

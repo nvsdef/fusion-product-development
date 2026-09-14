@@ -1,0 +1,13 @@
+# Host-side Python deps for plugins/fusion-mcp/host/.
+#
+# Deliberately near-empty. Unlike the CAE example's host plug-ins, this one
+# does NOT ship an MCP server: the server is the faust-machines fork, and its
+# dependencies are resolved from its own pyproject.toml by `uv sync` in
+# host/install.sh. Duplicating them here would give two pins that drift.
+#
+# host/fusion_mcp.py is stdlib-only on purpose — a health probe that cannot
+# run because its dependencies are missing is worse than no probe. `mcp` is
+# pinned the same way the other host plug-ins pin it, so that an ad-hoc
+# `uv run --with-requirements requirements.txt python` shell can import the
+# protocol types when poking at the bridge by hand.
+mcp>=1.0

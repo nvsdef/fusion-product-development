@@ -1,0 +1,347 @@
+{
+  "scale": 2.5,
+  "out": "drawings/SLAB_GA_RevC.pdf",
+  "footer": "Composed from measured body geometry. Views captured with Viewport.saveAsImageFile and cropped analytically by make_views.py - not export_view_sheet, which clips the elevations.",
+  "views": {
+    "top": {
+      "file": "top_line.png",
+      "ext": [
+        197.04,
+        340.04
+      ]
+    },
+    "front": {
+      "file": "front_line.png",
+      "ext": [
+        197.04,
+        61.21
+      ]
+    },
+    "right": {
+      "file": "right_line.png",
+      "ext": [
+        340.04,
+        61.21
+      ]
+    },
+    "iso": {
+      "file": "iso_line.png",
+      "width_mm": 130.0
+    }
+  },
+  "layout": {
+    "top": [
+      26.0,
+      126.0
+    ],
+    "front": [
+      26.0,
+      84.0
+    ],
+    "right": [
+      140.0,
+      84.0
+    ],
+    "iso": [
+      140.0,
+      124.0
+    ]
+  },
+  "dims": [
+    {
+      "view": "top",
+      "axis": "h",
+      "from": 2.02,
+      "to": 197.02,
+      "offset": 7,
+      "text": "195.0"
+    },
+    {
+      "view": "top",
+      "axis": "h",
+      "from": 49.12,
+      "to": 82.72,
+      "offset": 15,
+      "text": "33.6 KNOB PITCH X"
+    },
+    {
+      "view": "top",
+      "axis": "h",
+      "from": 32.02,
+      "to": 167.02,
+      "offset": -8,
+      "text": "135.0 PANEL"
+    },
+    {
+      "view": "top",
+      "axis": "v",
+      "from": 0.02,
+      "to": 340.02,
+      "offset": -9,
+      "text": "340.0"
+    },
+    {
+      "view": "top",
+      "axis": "v",
+      "from": 198.02,
+      "to": 228.02,
+      "offset": 9,
+      "text": "30.0 PITCH Y"
+    },
+    {
+      "view": "top",
+      "axis": "v",
+      "from": 124.02,
+      "to": 335.02,
+      "offset": 21,
+      "text": "211.0 PANEL"
+    },
+    {
+      "view": "front",
+      "axis": "v",
+      "from": 0.0,
+      "to": 61.21,
+      "offset": -9,
+      "text": "61.21 OVERALL"
+    },
+    {
+      "view": "front",
+      "axis": "v",
+      "from": 0.03,
+      "to": 46.03,
+      "offset": 8,
+      "text": "46.0"
+    },
+    {
+      "view": "front",
+      "axis": "v",
+      "from": 0.03,
+      "to": 23.03,
+      "offset": 16,
+      "text": "23.0 SPLIT"
+    },
+    {
+      "view": "right",
+      "axis": "h",
+      "from": 0.02,
+      "to": 340.02,
+      "offset": -10,
+      "text": "340.0"
+    },
+    {
+      "view": "right",
+      "axis": "v",
+      "from": 0.03,
+      "to": 46.03,
+      "offset": 9,
+      "text": "46.0"
+    }
+  ],
+  "balloons": [
+    {
+      "bx": 0.05,
+      "by": 0.93,
+      "px": 0.3,
+      "py": 0.6,
+      "text": "1"
+    },
+    {
+      "bx": 0.05,
+      "by": 0.1,
+      "px": 0.26,
+      "py": 0.3,
+      "text": "2"
+    },
+    {
+      "bx": 0.3,
+      "by": 0.03,
+      "px": 0.42,
+      "py": 0.2,
+      "text": "3"
+    },
+    {
+      "bx": 0.62,
+      "by": 0.96,
+      "px": 0.6,
+      "py": 0.72,
+      "text": "5"
+    },
+    {
+      "bx": 0.95,
+      "by": 0.72,
+      "px": 0.74,
+      "py": 0.6,
+      "text": "6"
+    },
+    {
+      "bx": 0.95,
+      "by": 0.3,
+      "px": 0.66,
+      "py": 0.4,
+      "text": "7"
+    },
+    {
+      "bx": 0.36,
+      "by": 0.96,
+      "px": 0.44,
+      "py": 0.66,
+      "text": "8"
+    }
+  ],
+  "parts_list": {
+    "x": 292.0,
+    "width": 112.0,
+    "top": 268.0,
+    "col_widths": [
+      8,
+      40,
+      10,
+      34,
+      20
+    ],
+    "header": [
+      "NO",
+      "COMPONENT / PART",
+      "QTY",
+      "DESCRIPTION",
+      "MATERIAL"
+    ],
+    "rows": [
+      [
+        1,
+        "SLAB_Housing_Upper",
+        1,
+        "Upper moulding, light grey",
+        "ABS+PC"
+      ],
+      [
+        2,
+        "SLAB_Housing_Base",
+        1,
+        "Base moulding, near-black",
+        "ABS+PC"
+      ],
+      [
+        3,
+        "Foot pad",
+        4,
+        "18 x 18 x 3.5, non-slip",
+        "TPE 60A"
+      ],
+      [
+        4,
+        "SLAB_Panel_Control",
+        1,
+        "Control panel 135x211x2",
+        "Al 5052"
+      ],
+      [
+        5,
+        "SLAB_Knob_Small",
+        20,
+        "Knob O13.5>10.79 x 15.5",
+        "ABS"
+      ],
+      [
+        6,
+        "SLAB_Knob_Large",
+        3,
+        "Knob O32 x 14, MSTR/PHN/GLUE",
+        "ABS"
+      ],
+      [
+        7,
+        "SLAB_Keypad",
+        10,
+        "Lit pad 18.6 sq R3 x 2.4",
+        "Silicone"
+      ],
+      [
+        8,
+        "SLAB_Power_Switch",
+        2,
+        "Toggle O11 + LED O5.2",
+        "ABS / PC"
+      ],
+      [
+        9,
+        "SLAB_LED_Indicators",
+        1,
+        "Section divider lightguide",
+        "PC diffuser"
+      ],
+      [
+        10,
+        "SLAB_Knob_Pointers",
+        23,
+        "Pointer inlay 1.1x5.6x0.92",
+        "Printed"
+      ],
+      [
+        11,
+        "SLAB_Panel_Ticks",
+        173,
+        "Graduation tick 0.8 x 0.45",
+        "Ink"
+      ],
+      [
+        12,
+        "SLAB_Panel_Graphics",
+        50,
+        "Lower-deck graphic, 0.15 pr.",
+        "Ink"
+      ]
+    ],
+    "footer": "TOTAL BODIES: 289        COMPONENTS: 12 (incl. root)        MASS NOT QUOTED - DEFAULT DENSITIES"
+  },
+  "notes_at": [
+    292.0,
+    183.0
+  ],
+  "notes": [
+    "1. ALL DIMENSIONS IN MILLIMETRES.",
+    "2. THIRD ANGLE PROJECTION. SCALE 1:2.5.",
+    "3. DIMENSIONS DERIVED FROM MEASURED BODY GEOMETRY.",
+    "   THE MODEL CARRIES ZERO NAMED USER PARAMETERS -",
+    "   THERE IS NO PARAMETER TABLE TO DIMENSION FROM.",
+    "4. DATUM PER DEC-C1: LONG AXIS ON Y (340), SHORT",
+    "   AXIS ON X (195), +Y AWAY FROM OPERATOR.",
+    "   ORIGIN CENTRED IN PLAN, Z 0 AT GROUND PLANE.",
+    "5. WALL 2.5 BOTH MOULDINGS. CORNER RADIUS R10.",
+    "   SPLIT LINE Z 23.0: BASE 3.5-23.0, UPPER 23.0-46.0.",
+    "6. PANEL RECESS 137 x 213 CENTRED (0, +59.5),",
+    "   2.4 DEEP TO A FLOOR AT Z 43.6. PANEL TOP Z 45.6",
+    "   IS THE DATUM EVERY CONTROL SITS ON.",
+    "7. SMALL KNOBS TAPER 5 DEG, WIDEST AT BASE O13.5.",
+    "   TOP EDGE R0.75. LARGE KNOB TOP EDGE R1.10.",
+    "8. KNOB MATRIX 4 COL x 5 ROW = 20 OFF PER DEC-C2.",
+    "9. BEZEL_HEIGHT = 0 PER DEC-C3. CONTROLS STAND",
+    "   PROUD BY UP TO 15.1. TRANSPORT PROTECTION IS A",
+    "   COVER ACCESSORY, NOT ENCLOSURE GEOMETRY.",
+    "   DEC-C3 AWAITS PM + ID SIGN-OFF PRE-TOOLING.",
+    "10. POWER TOGGLE O11.0 AT X -94.0, Y +130.0 -",
+    "    OVERHANGS THE ENVELOPE; BBOX X = 197.04.",
+    "11. TWO USB-C APERTURES 9.5 x 4.0 ON THE -X FACE",
+    "    AT Y -38.0 / -16.0, CENTRED Z 13.5, WHOLLY",
+    "    INSIDE THE BASE BAND PER DEC-C4.",
+    "12. NOT MODELLED: REAR I/O PLATE AND BAY, INTERNAL",
+    "    RIBS, BOSSES, PCB, BATTERY, BASE HATCH, PANEL",
+    "    LEGEND TEXT, ORANGE PANEL SPECKLE, DRAFT.",
+    "13. UNDIMENSIONED RADII R2 UNLESS NOTED."
+  ],
+  "title_block": {
+    "x": 262.0,
+    "y": 17.0,
+    "width": 145.0,
+    "height": 36.0,
+    "product": "SLAB",
+    "subtitle": "Portable 6-Channel Production Mixer / USB-C Audio Interface",
+    "title": "GENERAL ARRANGEMENT",
+    "model": "SLAB_TOP  (289 bodies)",
+    "rev": "C",
+    "date": "11 SEP 2026",
+    "owner": "S. Defibaugh",
+    "sheet": "1 OF 1"
+  },
+  "_comment": "Worked example, collision-checked in a raster. All dimension values are MEASURED body geometry, not model parameters - SLAB has ZERO named user parameters, so there is no parameter table to dimension from. 'ext' is the model's true bounding box, which is exactly what make_views.py crops each view to, so millimetres map to page position arithmetically. 'from'/'to' on dims are mm along the view's own axis from its lower-left corner; positive 'offset' places the dimension above/right of the view, negative below/left. NOTE the RIGHT view looks from +X with up +Z, so screen-right is -Y: its local x is (y_max - Y)."
+}

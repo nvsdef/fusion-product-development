@@ -1,0 +1,8 @@
+{
+  "status": "pending",
+  "next_stage": null,
+  "bodies": 0,
+  "components": 0,
+  "completed_classes": [],
+  "note": "Template. status=pending means cold build from an empty Design document."
+}

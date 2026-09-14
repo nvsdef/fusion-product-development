@@ -1,0 +1,33 @@
+name: Fusion API finding
+description: A documented API behaves differently from its documentation
+labels: [api-finding, skills]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Several entries in `fusion-mcp-core` exist only because someone
+        checked what actually happened to the model instead of trusting the
+        return value. That gap is the finding.
+  - type: input
+    attributes:
+      label: API call
+      placeholder: rendering.resolutionWidth = 64
+    validations: { required: true }
+  - type: textarea
+    attributes:
+      label: What it returned
+    validations: { required: true }
+  - type: textarea
+    attributes:
+      label: What actually happened to the model
+      description: Volume, face count or bbox before and after. Numbers, not impressions.
+    validations: { required: true }
+  - type: input
+    attributes:
+      label: Fusion version
+    validations: { required: true }
+  - type: dropdown
+    attributes:
+      label: Should this become a skill entry?
+      options: ["Yes - fusion-mcp-core", "Yes - fusion-render", "Yes - fusion-drawing", "Not sure"]
+    validations: { required: true }

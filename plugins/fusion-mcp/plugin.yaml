@@ -1,0 +1,80 @@
+# Schema: PLUGIN_SCHEMA.md
+
+name: fusion-mcp
+version: 1.0
+description: >
+  Bridges the agent to a running Autodesk Fusion session. The stdio server is
+  launched by the client and talks to the Fusion360MCP add-in over TCP
+  127.0.0.1:9876. NOT the Autodesk-published HTTP endpoint on 27182 — that
+  requires the custom-connector path, which enterprise policy commonly blocks.
+
+# Single source of truth for the fusion-mcp-server checkout AND the
+# interpreter that runs it. Consumers:
+#   • scripts/setup/env-loader.sh  → applies the .env_template defaults and
+#     derives FUSION_MCP_PYTHON from FUSION_MCP_REPO when it is unset.
+#   • scripts/setup/plugins.py     → expands ${...} in `mcp_server:` below.
+#   • scripts/setup/patch_timeouts.py → raises both timeouts to 300 s inside
+#     this checkout (setup.sh step 3).
+source:
+  repo:    https://github.com/faust-machines/fusion360-mcp-server.git
+  ref:     main                  # forked; see plugins/fusion-mcp/README.md
+  env:     FUSION_MCP_REPO       # env var consumers read
+  default: ~/fusion-mcp-server   # on-disk location of the checkout
+
+runtime:
+  location: host
+  gpu_required: false       # Fusion's raytracer uses the host GPU directly,
+                            # not through this MCP; no GPU is required to
+                            # start the bridge.
+
+endpoint:
+  kind: host-mcp
+  # A stdio server has no listening port of its own — it is spawned on stdin/
+  # stdout. The host/port below is the ADD-IN socket the server dials, and is
+  # what scripts/setup/plugins.py synthesises the sandbox egress rule from.
+  transport: stdio
+  host: 127.0.0.1
+  port: 9876
+  # Unlike the CAE example's host MCPs there is nothing to DAEMONISE — the
+  # client spawns the stdio process itself. The two scripts below exist
+  # anyway because the host side still needs doing:
+  #   install_script — clones/refreshes the fork, `uv sync`, copies the
+  #     add-in into the Fusion AddIns dir, patches both timeouts to 300 s.
+  #     It cannot finish the job: enabling the add-in inside Fusion is a
+  #     manual GUI step. See the `== MANUAL STEPS ON THE HOST ==` block at
+  #     the end of setup.sh, which install_script reprints.
+  #   run_script — foregrounds the server for scripts/start-coprocesses.sh
+  #     and for manual smoke-testing. Not used on the client-spawned path.
+  install_script: host/install.sh
+  run_script:     host/run.sh
+
+# fusion-mcp-core is NOT here: it is the shared skill, declared once under
+# cad-agent.yaml `shared_skills:` and fanned out into every agent by
+# scripts/setup/sync_shared_skills.py. What follows is the plug-in-owned
+# skill — operating the bridge itself (liveness, timeouts, batch caps,
+# recovery after a hang), which belongs to the transport, not to any one
+# stage of the pipeline.
+skills:
+  - name: fusion-mcp-host
+    owner_agent: main          # the single cad-engineer agent; the bridge is
+                               # hit hardest during the build stage.
+
+# Native MCP integration. ~95 tools; the notable ones (and the two that must
+# never be called) are documented in plugins/fusion-mcp/README.md and in each
+# agent's TOOLS.md. `${...}` is expanded from the environment by
+# scripts/setup/plugins.py — see scripts/setup/env-loader.sh for the defaults.
+#
+# SINGLE SOURCE OF TRUTH for the invocation: the "Client registration" block
+# in plugins/fusion-mcp/README.md — venv interpreter + `-m fusion360_mcp
+# --mode socket`. host/run.sh reproduces the same form. Change the README
+# first, then these two.
+mcp_server:
+  transport: stdio
+  command: ${FUSION_MCP_PYTHON}
+  args: ["-m", "fusion360_mcp", "--mode", "socket"]
+  env:
+    FUSION_MCP_PORT:    ${FUSION_MCP_PORT}
+    FUSION_MCP_TIMEOUT: ${FUSION_MCP_TIMEOUT}
+
+# No `policy_fragment:` — scripts/setup/plugins.py synthesises the host-MCP
+# egress from `endpoint.host` + `endpoint.port` (127.0.0.1:9876).

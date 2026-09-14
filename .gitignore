@@ -1,0 +1,28 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+uv.lock
+*.f3d
+*.f3z
+
+# Scratch output from a run. The ACCEPTED baseline is committed (see below) —
+# everything else a run produces is disposable.
+outputs/
+*_raw.png
+*_probe.png
+*_check.png
+sheet_check*.jpg
+views/
+
+# Reference imagery ships with this copy - stage 4 reads it to cross-check CMF.
+# (In the upstream repo these are supplied per-checkout instead.)
+
+# ── Committed on purpose ──────────────────────────────────────────────────
+# These are the acceptance baseline a run is measured against, not build
+# artefacts. If they are ignored, the agent has nothing to compare to.
+!docs/SLAB_PRD_RevC.pdf
+!docs/SLAB_RevC_verification_report.md
+!drawings/SLAB_GA_RevC.pdf
+!renders/slab_hero.png
+!renders/slab_top.png

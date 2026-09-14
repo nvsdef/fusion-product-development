@@ -1,0 +1,32 @@
+# Committed base sandbox egress policy.
+# Sandbox -> host MCP + inference only. No package egress is needed at
+# runtime because nothing installs inside the running sandbox.
+
+version: 1
+
+egress:
+  allow:
+    # host MCP bridge (stdio launched by the client; TCP to the Fusion add-in)
+    - host: 127.0.0.1
+      ports: [9876]
+      note: Fusion360MCP add-in socket
+
+    # inference
+    - host: integrate.api.nvidia.com
+      ports: [443]
+    - host: api.anthropic.com
+      ports: [443]
+
+    # Autodesk API documentation lookups (fetch_api_doc)
+    - host: help.autodesk.com
+      ports: [443]
+
+  deny:
+    - host: "*"
+      note: default deny
+
+# The Autodesk HTTP MCP endpoint is deliberately NOT allowed. It is
+# localhost-only and unauthenticated; enterprise policy commonly blocks the
+# custom-connector path that reaches it. This example uses the stdio bridge.
+notes:
+  - 127.0.0.1:27182 (Autodesk Fusion MCP) intentionally excluded
